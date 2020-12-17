@@ -60,41 +60,6 @@ public class MapUtil {
         return jsonObject.getJSONArray("districts");
     }
 
-    public static void parseDistrictInfo(JSONArray districts, String targeCitycode, List<District> districtList) {
-        if (null != districts && (!districts.isEmpty())) {
-
-            Iterator<Object> iterator = districts.iterator();
-            while (iterator.hasNext()) {
-                JSONObject next = (JSONObject) (iterator.next());
-
-                String name = next.getString("name");
-                String citycode = next.getString("citycode");
-                String polyline = next.getString("polyline");
-                String level = next.getString("level");
-                logger.warn("name:" + name);
-
-                logger.warn("polyline:" + polyline);
-                logger.warn("citycode:" + citycode);
-
-                if (level.equals("city")) {//如果级别是城市,继续进行区/县解析
-                    JSONArray district = next.getJSONArray("districts");
-                    parseDistrictInfo(district, null,districtList);
-                } else if (level.equals("district")) {
-                    if (null != targeCitycode && targeCitycode.equals(citycode)) {
-                        districtList.add(new District(citycode,name,polyline));
-                        return;
-                    }
-
-                    if (null == polyline) {
-                        JSONArray cityDistrict = getDistricts(name, null);
-                        parseDistrictInfo(cityDistrict, citycode,districtList);
-                    }
-                    continue;
-                }
-            }
-        }
-    }
-
     /**
      * 阿里云api 根据经纬度获取所在城市
      *
@@ -490,12 +455,7 @@ public class MapUtil {
         return textStr;
     }
 
-    //https://restapi.amap.com/v3/config/district?parameters
     public static void main(String[] args) {
-        List<District> districtList = new ArrayList<District>();
-        JSONArray districts = getDistricts("海口市", null);
-        parseDistrictInfo(districts, null,districtList);
-        logger.warn(JSONObject.toJSONString(districtList));
     }
 }
 

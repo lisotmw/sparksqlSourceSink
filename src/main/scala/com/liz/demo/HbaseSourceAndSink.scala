@@ -21,7 +21,7 @@ object HbaseSourceAndSink {
       .master("local[2]")
       .getOrCreate()
     val df: DataFrame = spark.read
-      .format("com.travel.programApp.HBaseSource")
+      .format("com.liz.demo.HBaseSource")
       .option("hbase.table.name", "spark_hbase_sql")
       .option("schema", "`name` STRING, `score` STRING")
       .option("cf.cc", "cf:name,cf:score")
@@ -30,7 +30,7 @@ object HbaseSourceAndSink {
     df.createOrReplaceTempView("sparkHBaseSQL")
     val frame: DataFrame = spark.sql("select * from sparkHBaseSQL where score > 60")
 
-    frame.write.format("com.travel.programApp.HBaseSource")
+    frame.write.format("com.liz.demo.HBaseSource")
       .mode(SaveMode.Overwrite)
       .option("hbase.table.name","spark_hbase_write")
       .save()

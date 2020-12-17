@@ -1,3 +1,0 @@
-sparksqlSource&Sink
-spark-sql 自定义source and sink，整合各种常规数据库 hbase，mysql，redis
-参考：https://blog.csdn.net/zjerryj/article/details/84922369

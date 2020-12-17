@@ -108,9 +108,9 @@ public class HBaseUtil {
         return connection.getTable(TableName.valueOf(tableName));
     }
 
-    public static void savePuts(List<Put> putList,String tableName) throws Exception {
+    public static void savePuts(List<Put> putList,String tableName, String family) throws Exception {
         if (!tableExists(tableName)) {
-            HBaseUtil.createTable(getConnection(), tableName, Constants.DEFAULT_FAMILY);
+            HBaseUtil.createTable(getConnection(), tableName, family);
         }
         Table table = HBaseUtil.getTable(tableName);
         table.put(putList);
@@ -169,76 +169,6 @@ public class HBaseUtil {
         }
 
     }
-
-    /**
-     * 根据表名开始时间和结束时间查询轨迹
-     *
-     * @param tableName
-     * @param orderId
-     * @param startTimestampe
-     * @param endTimestampe
-     * @return
-     */
-    public static <T> List<T> getRest(String tableName, String orderId,
-                                      String startTimestampe, String endTimestampe, Class<T> clazz) throws Exception {
-        Table table = null;
-        Scan scanner = null;
-        List<T> restList = null;
-        try {
-            restList = new ArrayList<>();
-            table = getTable(tableName);
-            String startRowKey = orderId + "_" + startTimestampe;
-            String endRowKey = orderId + "_" + endTimestampe;
-            scanner = new Scan();
-
-            scanner.setStartRow(startRowKey.getBytes());
-            scanner.setStopRow(endRowKey.getBytes());
-
-            try (ResultScanner rs = table.getScanner(scanner)) {
-
-                for (Result r : rs) {
-                    //反射形成对象
-                    //获取字节码对象类的所有字段属性
-                    Field[] fields = clazz.getDeclaredFields();
-                    T t = clazz.newInstance();
-                    NavigableMap<byte[], byte[]> familyMap = r.getFamilyMap(Constants.DEFAULT_FAMILY.getBytes());
-                    for (Map.Entry<byte[], byte[]> entry : familyMap.entrySet()) {
-                        String colName = Bytes.toString(entry.getKey());
-                        String colValue = Bytes.toString(entry.getValue());
-
-                        for (Field field : fields) {
-                            String fieldName = field.getName();
-                            field.setAccessible(true);
-                            if (fieldName.equalsIgnoreCase(colName)) {
-                                String fieldType = field.getType().toString();
-                                if (fieldType.equalsIgnoreCase("class java.lang.String")) {
-                                    field.set(t, colValue);
-                                } else if (fieldType.equalsIgnoreCase("class java.lang.Integer")){
-                                    field.set(t, Integer.parseInt(colValue));
-                                } else if (fieldType.equalsIgnoreCase("class java.lang.Long")){
-                                    field.set(t, Long.parseLong(colValue));
-                                } else if (fieldType.equalsIgnoreCase("class java.lang.Double")) {
-                                    field.set(t, Double.parseDouble(colValue));
-                                } else if (fieldType.equalsIgnoreCase("class java.util.Date")) {
-                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                                    field.set(t, sdf.format(new Date(Long.parseLong(colValue + "000"))));
-                                } else if (fieldType.equalsIgnoreCase("java.lang.Boolean")) {
-                                    field.set(t, Boolean.parseBoolean(colValue));
-                                } else {
-                                    field.set(t, null);
-                                }
-                            }
-                        }
-                    }
-                    restList.add(t);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return restList;
-    }
-
 
     public static void main(String[] args) throws IOException {
         Connection connection = getConnection();

@@ -6,9 +6,3 @@ case class SparkCaseClass(topic:String, partition:Int, offset:Long) extends Comp
     this.offset.compareTo(o.offset)
   }
 }
-
-
-case class HaiKouOrder(order_id:String,city_id:String, starting_lng:String,starting_lat:String) extends Serializable
-
-
-
