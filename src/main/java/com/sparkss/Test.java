@@ -1,6 +1,6 @@
-package com.liz;
+package com.sparkss;
 
-import com.liz.base.BaseConnect;
+import com.sparkss.base.BaseConnect;
 
 public class Test extends BaseConnect<Test> {
 }

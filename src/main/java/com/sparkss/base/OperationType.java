@@ -1,4 +1,4 @@
-package com.liz.base;
+package com.sparkss.base;
 
 /**
  * LiBaiheng 2020/12/22 9:41

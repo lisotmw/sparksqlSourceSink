@@ -1,4 +1,4 @@
-package com.liz.base;
+package com.sparkss.base;
 
 import javax.validation.constraints.NotNull;
 
