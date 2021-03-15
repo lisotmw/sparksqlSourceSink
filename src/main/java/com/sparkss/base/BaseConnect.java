@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
  * LiBaiheng 2020/12/21 17:09
  * @description 基类  所有数据源基类
  */
+@Deprecated
 public class BaseConnect<T> {
 
     // sql语句

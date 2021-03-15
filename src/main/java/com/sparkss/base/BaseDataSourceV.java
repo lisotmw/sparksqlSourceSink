@@ -20,12 +20,10 @@ import java.util.Optional;
 
 /**
  * 顶层父类，实现了sparksql 自定义数据源需要的 DataSourceV2，
- * 同时支持读写
  * todo：
- * 1.代理 + 对象池 + clone
- * 2.FlowBean对象统一管理维护一个<id,FlowBean>，类层级之间传递id，
- * 3.在枚举层实现通用的检测接口
- *  构建第二层 DataSourceReader的时候，初始化所有关联对象，后期复用直接从对象池里取
+ * 1.所有 DataSourceV2 相关的中间对象，使用对象池，避免频繁创建 和 gc
+ * 2.FlowBean对象(每次查询读取数据时的状态数据，例如查询时的 sql，或是需要过滤的字段信息等)
+ * 统一管理维护一个<id,FlowBean>（com.sparkss.base.consume.ConsumerMgr.CONSUMING），类层级之间传递id，
  * @Author $ zho.li
  * @Date 2020/12/18 9:45
  **/
@@ -54,14 +52,14 @@ public class BaseDataSourceV implements DataSourceV2, ReadSupport, WriteSupport 
         flowBean.setReaderPoolClz(instance.getReaderPoolClz());
         flowBean.setWriterPoolClz(instance.getWriterPoolClz());
 
+        // 随机生成一个 flowId
         long flowId = RandomUtil.generateRandomNumber(15);
+        // 从对象池读取 ReaderMgr 并设置 flowId
         DSReaderMgr dsReaderMgr = instance.getDSReaderMgr(flowId);
 
-        if(dsReaderMgr == null){
-
-        }
         consumObj.setFlowBean(flowBean);
         consumObj.setReaderMgr(dsReaderMgr);
+        // 每次查询作为一次记录放入 临时缓存
         ConsumerMgr.CONSUMING.submit(flowId,consumObj);
         return dsReaderMgr.getDataSourceReader(flowId);
     }

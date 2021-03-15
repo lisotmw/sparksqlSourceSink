@@ -50,9 +50,17 @@ object HbaseSourceAndSink {
 //      .mode(SaveMode.Overwrite)
 //      .option("hbase.table.name","spark_hbase_write")
 //      .save()
+    val inc = new PartialFunction[Any,Int] {
+      override def isDefinedAt(x: Any) = if(x.isInstanceOf[Int]) true else false;
+
+      override def apply(v1: Any) = {
+        v1.asInstanceOf[Int] + 1;
+      }
+    }
   }
 }
 
+// Test 以下代码为 datasource.V2 原始用例，保留是为了测试方便，与本项目无关
 /**
  * circle1
  */

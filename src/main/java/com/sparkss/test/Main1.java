@@ -1,4 +1,4 @@
-package com.sparkss.proxy;
+package com.sparkss.test;
 
 import com.sparkss.base.FlowBean;
 import com.sparkss.base.impl.hbase.HBaseDataSourceReader;

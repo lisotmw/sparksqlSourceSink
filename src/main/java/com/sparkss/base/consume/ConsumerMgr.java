@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * 每次查询的临时缓存管理，包含每次查询的特有数据（sql语句，过滤的字段等），查询需要的 datasourceV2 对象组
+ * （org.apache.spark.sql.sources.v2 包下的实现对象，这里直接从对象池里取），每次数据操作完成会自动清理。
  * TODO
  * 发生异常会导致消费者管理类中的对象不能正常被对象池回收，怎么处理呢。。。
  * @Author $ zho.li

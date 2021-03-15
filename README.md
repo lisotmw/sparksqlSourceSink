@@ -1,18 +1,33 @@
 sparksqlSource&Sink
+
 spark-sql 自定义source and sink，整合各种常规数据库 hbase，mysql，redis
-参考：https://blog.csdn.net/zjerryj/article/details/84922369
+参考：
+https://blog.csdn.net/zjerryj/article/details/84922369
+https://spark.apache.org/docs/2.3.2/api/java/index.html
 
-特色：1.针对不同数据源，可使用通用的实现类调用，只需要在 sparkSQL初始化时指定相应的 option 参数即可；
-     2.使用池化资源的方式重用对象，避免频繁 gc 带来的性能资源开销；
-     3.一次查询的常用对象组使用一个数组存放；达到内存连续的效果（借鉴disruptor 的程序局部性优化思想）
+这是一个小demo，旨在对 spark 2.3 datasource.V2 版本提供自定义数据源方案做封装。
 
-基础功能点：
-1.读取数据源
-    1.1.列剪枝
-    1.2.自定义过滤算子（这个有点难度，暂时跳过）
-    1.3.读取数据源灵活配置（redis，hbase...）
-    1.4.最后一层接口 DataReader 需要定义iterator()获取抽象的迭代器
-    1.5.字段名和类型信息，定义一个类来疯转，传递到最低层DataReader
-2.数据输出
-    2.1.提交失败回滚逻辑，要支持自定义
-    2.2.字段名和类型信息，定义一个类来疯转，传递到最低层DataWriter
+原方案中每次读取操作需要新建多个 中间对象，本项目中利用 java juc 包中 semaphore 共
+享状态变量 （多个线程可同时访问临界区）的原理 对读取数据源时的 中间对象 做池化处理
+(基类实现为 com.sparkss.base.pool.ObjectPool)，实现了对象重用， 减少了频繁对
+象创建和频繁 gc 的开销。
+
+借鉴 disruptor 程序局部性优化思想，对一种数据源的一组中间对象做内存连续性处理
+（实现为 com.sparkss.base.impl.hbase.HBaseDSReader）
+
+针对不同数据源，可使用通用的实现类调用(com.liz.base.BaseDataSourceV)，
+只需要在 sparkSQL初始化时指定相应的 option 参数(OptionKey 统一处理
+com.sparkss.base.keys.SparkOptionKey)即可；
+
+测试用例：com.sparkss.demo.HbaseSourceAndSink（当前只实现了 hbase）
+
+用法：
+读取数据源灵活配置（redis，hbase...），需要支持的各种数据源参考 com.sparkss.base.impl.hbase 包
+下 hbase 读数据的实现。
+
+注：
+datasource.V2 提供的方案在高版本 spark 中已经弃用。
+该项目的初衷为学习初期对 类层次结构设计 和 性能优化的练习，并无商用价值，因此只写了 hbase 读
+数据的用例进行测试，测试结果较原始版本性能提审 7%-10%。商用可考虑 高版本 spark 提供的新的优
+化方案，也可考虑 flink 提供的自定义数据源方案
+

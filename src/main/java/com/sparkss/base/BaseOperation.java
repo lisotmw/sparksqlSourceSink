@@ -3,6 +3,7 @@ package com.sparkss.base;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+@Deprecated
 public class BaseOperation {
 
     private BaseConnect baseConnect;

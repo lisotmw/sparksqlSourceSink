@@ -1,4 +1,4 @@
-package com.sparkss.proxy;
+package com.sparkss.test;
 
 import com.sparkss.common.RandomUtil;
 
