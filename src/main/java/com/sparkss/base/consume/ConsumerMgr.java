@@ -19,16 +19,16 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 public enum ConsumerMgr {
     CONSUMING(),;
-    private Map<Long,ConsumObj> consumingMap = new ConcurrentHashMap<>();
+    private Map<Long, ConsumerObj> consumingMap = new ConcurrentHashMap<>();
 
-    public void submit(long flowId,ConsumObj consumObj){
+    public void submit(long flowId, ConsumerObj consumerObj){
         if (!consumingMap.containsKey(flowId)){
-            consumingMap.put(flowId,consumObj);
+            consumingMap.put(flowId, consumerObj);
         }
     }
 
-    public ConsumObj getConsumer(long flowId){
-        ConsumObj consumer = null;
+    public ConsumerObj getConsumer(long flowId){
+        ConsumerObj consumer = null;
         if (consumingMap.containsKey(flowId)){
             consumer = consumingMap.get(flowId);
         }
@@ -41,7 +41,7 @@ public enum ConsumerMgr {
      */
     public void remove(long flowId){
         if (consumingMap.containsKey(flowId)){
-            ConsumObj consumed = consumingMap.get(flowId);
+            ConsumerObj consumed = consumingMap.get(flowId);
             DSReaderMgr readerMgr = consumed.getReaderMgr();
             if (readerMgr != null){
                 // 对象池回收

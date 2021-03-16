@@ -17,7 +17,7 @@ https://spark.apache.org/docs/2.3.2/api/java/index.html
 
 针对不同数据源，可使用通用的实现类调用(com.liz.base.BaseDataSourceV)，
 只需要在 sparkSQL初始化时指定相应的 option 参数(OptionKey 统一处理
-com.sparkss.base.keys.SparkOptionKey)即可；
+com.sparkss.base.keys.CommonOptionKey)即可；
 
 测试用例：com.sparkss.demo.HbaseSourceAndSink（当前只实现了 hbase）
 

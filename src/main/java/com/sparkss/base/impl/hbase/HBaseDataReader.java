@@ -3,7 +3,7 @@ package com.sparkss.base.impl.hbase;
 import com.sparkss.base.FlowBean;
 import com.sparkss.base.consume.ConsumerMgr;
 import com.sparkss.base.interf.reuse.ReuseDataReader;
-import com.sparkss.base.log.Log;
+import com.sparkss.base.log.Logger0;
 import com.sparkss.common.HBaseUtil;
 import com.sparkss.common.JavaConversion;
 import org.apache.hadoop.hbase.TableName;
@@ -20,7 +20,7 @@ import java.util.List;
  * @Author $ zho.li
  * @Date 2020/12/22 21:49
  **/
-public class HBaseDataReader extends ReuseDataReader<Row> {
+public class HBaseDataReader extends ReuseDataReader<Row> implements Logger0 {
     private long flowId;
     private Connection conn;
     private Iterator<Result> iterator;
@@ -47,7 +47,7 @@ public class HBaseDataReader extends ReuseDataReader<Row> {
             ResultScanner scanner = table.getScanner(scan);
             return scanner.iterator();
         }catch (IOException e){
-            Log.getLogger(this.getClass()).error("获取 hbase 连接异常",e);
+            getLogger().error("获取 hbase 连接异常",e);
             return null;
         }
     }

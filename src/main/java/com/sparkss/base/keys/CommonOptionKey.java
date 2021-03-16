@@ -4,9 +4,24 @@ package com.sparkss.base.keys;
  * @Author $ zho.li
  * @Date 2020/12/21 16:45
  **/
-public interface SparkOptionKey {
+public interface CommonOptionKey {
     /** 表名 */
     public String TABLE_NAME = "table_name";
+
+    /**
+     * hbase rowkey
+     */
+    public String HBASE_ROW_KEY = "hbase_row_key";
+
+    /**
+     * 不带属性的字段名
+     */
+    public String FIELDS = "fields";
+
+    /**
+     *  hbase region 个数
+     */
+    public String HBASE_REGIONS = "hbase_regions";
 
     /** schema信息（`name` STRING,`score` STRING） */
     public String SCHEMA_STR = "schema";

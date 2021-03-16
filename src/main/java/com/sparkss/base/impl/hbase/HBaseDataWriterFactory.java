@@ -1,5 +1,6 @@
 package com.sparkss.base.impl.hbase;
 
+import com.sparkss.base.consume.ConsumerMgr;
 import com.sparkss.base.interf.reuse.ReuseDataWriterFactory;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.sources.v2.writer.DataWriter;
@@ -18,7 +19,7 @@ public class HBaseDataWriterFactory implements ReuseDataWriterFactory<Row> {
 
     @Override
     public DataWriter<Row> createDataWriter(int partitionId, int attemptNumber) {
-        return null;
+        return ConsumerMgr.CONSUMING.getConsumer(flowId).getWriterMgr().getDataWriter(flowId);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.sparkss.base;
 
-import com.sparkss.base.keys.SparkOptionKey;
+import com.sparkss.base.keys.CommonOptionKey;
+import com.sparkss.base.keys.SparkOptionEnum;
 import com.sparkss.base.pool.ReaderObjPool;
 import com.sparkss.base.pool.WriterObjPool;
 import org.apache.spark.sql.SaveMode;
@@ -20,6 +21,17 @@ public class FlowBean {
     private String tableName;
     /** 字符串schema（"`name` STRING,`score` STRING"） */
     private String schemaStr;
+
+    /**
+     * 无类型的属性字段
+     */
+    private String fields;
+
+    /**
+     * hbase rowKey
+     */
+    private String rowKey;
+
     /** hbase 列族列名（"cf:name,cf:score"） */
     private String hbaseCfCc;
     /** 数据库标识 @{link DataBaseMark} */
@@ -44,7 +56,7 @@ public class FlowBean {
         if (tableName != null && tableName.length() > 0){
             return tableName;
         }
-        return options.get(SparkOptionKey.TABLE_NAME).get();
+        return options.get(CommonOptionKey.TABLE_NAME).get();
     }
 
     public void setTableName(String tableName) {
@@ -54,17 +66,45 @@ public class FlowBean {
     public String getSchemaStr() {
         if (schemaStr != null && schemaStr.length() > 0)
             return schemaStr;
-        return options.get(SparkOptionKey.SCHEMA_STR).get();
+        return options.get(CommonOptionKey.SCHEMA_STR).get();
     }
 
     public void setSchemaStr(String schemaStr) {
         this.schemaStr = schemaStr;
     }
 
+    public String getFields() {
+        if (fields != null && fields.length() > 0)
+            return fields;
+        return options.get(SparkOptionEnum.FIELDS.getKey()).get();
+    }
+
+    public void setFields(String fields) {
+        this.fields = fields;
+    }
+
+    /**
+     * 获取 hbase region 的个数，默认去 8 个
+     * @return
+     */
+    public int getHbaseRegions(){
+        return options.getInt(SparkOptionEnum.HBASE_REGIONS.getKey(), 8);
+    }
+
+    public String getRowKey() {
+        if (rowKey != null && rowKey.length() > 0)
+            return rowKey;
+        return options.get(CommonOptionKey.HBASE_ROW_KEY).get();
+    }
+
+    public void setRowKey(String rowKey) {
+        this.rowKey = rowKey;
+    }
+
     public String getHbaseCfCc() {
         if (hbaseCfCc != null && hbaseCfCc.length() > 0)
             return hbaseCfCc;
-        return options.get(SparkOptionKey.FAMILY_COLUMN).get();
+        return options.get(CommonOptionKey.FAMILY_COLUMN).get();
     }
 
     public void setHbaseCfCc(String hbaseCfCc) {

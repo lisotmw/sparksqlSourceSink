@@ -8,7 +8,7 @@ import com.sparkss.base.interf.mgr.DSWriterMgr;
  * @Author $ zho.li
  * @Date 2020/12/25 11:13
  **/
-public class ConsumObj {
+public class ConsumerObj {
     private FlowBean flowBean;
     private DSWriterMgr writerMgr;
     private DSReaderMgr readerMgr;

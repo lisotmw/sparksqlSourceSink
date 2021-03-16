@@ -2,9 +2,8 @@ package com.sparkss.demo
 
 import java.util
 import java.util.{Optional, UUID}
-
 import com.sparkss.base.inst.DataBaseMark
-import com.sparkss.base.keys.SparkOptionKey
+import com.sparkss.base.keys.CommonOptionKey
 import com.sparkss.base.pool.PoolMgr
 import com.sparkss.utils.HbaseTools
 import org.apache.hadoop.hbase.TableName
@@ -27,12 +26,12 @@ object HbaseSourceAndSink {
       .master("local[2]")
       .getOrCreate()
     val df: DataFrame = spark.read
-      .format(SparkOptionKey.SOURCE_CLASS)
+      .format(CommonOptionKey.SOURCE_CLASS)
 //      .format("com.liz.demo.HBaseSource")
-      .option(SparkOptionKey.TABLE_NAME, "spark_hbase_sql")
-      .option(SparkOptionKey.SCHEMA_STR, "`name` STRING, `score` STRING")
-      .option(SparkOptionKey.FAMILY_COLUMN, "cf:name,cf:score")
-      .option(SparkOptionKey.DATA_BASE_MODE, DataBaseMark.HBASE_READ.getMark)
+      .option(CommonOptionKey.TABLE_NAME, "spark_hbase_sql")
+      .option(CommonOptionKey.SCHEMA_STR, "`name` STRING, `score` STRING")
+      .option(CommonOptionKey.FAMILY_COLUMN, "cf:name,cf:score")
+      .option(CommonOptionKey.DATA_BASE_MODE, DataBaseMark.HBASE_READ.getMark)
       .load()
       .filter("score > 60")
       .select("name")
@@ -67,11 +66,11 @@ object HbaseSourceAndSink {
 class HBaseSource extends DataSourceV2 with ReadSupport with WriteSupport{
   override def createReader(options: DataSourceOptions): DataSourceReader = {
 
-    val tableName: String = options.get(SparkOptionKey.TABLE_NAME).get()
+    val tableName: String = options.get(CommonOptionKey.TABLE_NAME).get()
 
-    val columnFamily: String = options.get(SparkOptionKey.FAMILY_COLUMN).get()
+    val columnFamily: String = options.get(CommonOptionKey.FAMILY_COLUMN).get()
 
-    val schema: String = options.get(SparkOptionKey.SCHEMA_STR).get()
+    val schema: String = options.get(CommonOptionKey.SCHEMA_STR).get()
 
     new HbaseDataSourceReader(tableName,columnFamily,schema)
   }

@@ -5,13 +5,18 @@ import com.sparkss.base.interf.DSReader;
 import com.sparkss.base.interf.mgr.DSReaderMgr;
 import com.sparkss.base.interf.DSWriter;
 import com.sparkss.base.interf.mgr.DSWriterMgr;
-import com.sparkss.base.keys.SparkOptionKey;
+import com.sparkss.base.keys.CommonOptionKey;
+import com.sparkss.base.keys.SparkOptionEnum;
+import com.sparkss.base.log.Logger0;
 import com.sparkss.base.pool.PoolMgr;
 import com.sparkss.base.pool.ReaderObjPool;
 import com.sparkss.base.pool.WriterObjPool;
 import com.sparkss.base.pool.hbase.HBaseReaderPool;
+import com.sparkss.base.pool.hbase.HBaseWriterPool;
 import org.apache.spark.sql.sources.v2.DataSourceOptions;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,17 +30,29 @@ import java.util.stream.Stream;
  * @Author $ zho.li
  * @Date 2020/12/21 17:08
  **/
-public enum DataSourceInstance implements DSWriter, DSReader, Checkable {
+public enum DataSourceInstance implements DSWriter, DSReader, Checkable, Logger0 {
     HBASE_READ(DataBaseMark.HBASE_READ, HBaseReaderPool.class, null){
         @Override
         public boolean check(DataSourceOptions options) {
-            Optional<String> tableName = options.get(SparkOptionKey.TABLE_NAME);
-            Optional<String> schemaStr = options.get(SparkOptionKey.SCHEMA_STR);
-            Optional<String> cfcc = options.get(SparkOptionKey.FAMILY_COLUMN);
-            return tableName.isPresent() && schemaStr.isPresent() &&cfcc.isPresent();
+            List<SparkOptionEnum> checks = Arrays.asList(
+                    SparkOptionEnum.TABLE_NAME,
+                    SparkOptionEnum.SCHEMA_STR,
+                    SparkOptionEnum.FAMILY_COLUMN
+            );
+            return checkOptions(options, checks, getLogger());
         }
     },
-    ;
+    HBASE_WRITE(DataBaseMark.HBASE_WRITE,null, HBaseWriterPool.class) {
+        @Override
+        public boolean check(DataSourceOptions options) {
+            List<SparkOptionEnum> checks = Arrays.asList(
+                    SparkOptionEnum.TABLE_NAME,
+                    SparkOptionEnum.FAMILY_COLUMN,
+                    SparkOptionEnum.HBASE_ROW_KEY
+            );
+            return checkOptions(options, checks, getLogger());
+        }
+    };
 
     private DataBaseMark dataBaseMark;
 
@@ -61,7 +78,7 @@ public enum DataSourceInstance implements DSWriter, DSReader, Checkable {
     }
 
     @Override
-    public DSWriterMgr getWriterMgr(long flowId) {
+    public DSWriterMgr getDSWriterMgr(long flowId) {
         DSWriterMgr writerMgr = null;
         if (writerPoolClz != null){
             WriterObjPool writerPool = PoolMgr.POOL.getWriterPool(writerPoolClz);

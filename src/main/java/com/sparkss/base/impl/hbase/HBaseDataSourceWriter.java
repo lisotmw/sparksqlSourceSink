@@ -1,5 +1,6 @@
 package com.sparkss.base.impl.hbase;
 
+import com.sparkss.base.consume.ConsumerMgr;
 import com.sparkss.base.interf.reuse.ReuseDataSourceWriter;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.sources.v2.writer.DataWriterFactory;
@@ -16,7 +17,7 @@ public class HBaseDataSourceWriter implements ReuseDataSourceWriter {
     }
     @Override
     public DataWriterFactory<Row> createWriterFactory() {
-        return null;
+        return ConsumerMgr.CONSUMING.getConsumer(flowId).getWriterMgr().getDataWriterFactory(flowId);
     }
 
     @Override
