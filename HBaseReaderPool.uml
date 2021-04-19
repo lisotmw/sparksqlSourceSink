@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.sparkss.base.pool.hbase.HBaseReaderPool</OriginalElement>
+  <nodes>
+    <node x="240.25" y="375.0">com.sparkss.base.pool.ReaderObjPool</node>
+    <node x="0.0" y="188.0">com.sparkss.base.interf.mgr.DSReaderMgr</node>
+    <node x="368.0" y="152.0">com.sparkss.base.pool.ObjectPool</node>
+    <node x="242.25" y="0.0">com.sparkss.base.interf.reuse.Reusable</node>
+    <node x="188.25" y="480.0">com.sparkss.base.pool.hbase.HBaseReaderPool</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.sparkss.base.pool.ReaderObjPool" target="com.sparkss.base.interf.mgr.DSReaderMgr">
+      <point x="-38.0" y="-27.5" />
+      <point x="278.25" y="350.0" />
+      <point x="174.0" y="350.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="com.sparkss.base.pool.ReaderObjPool" target="com.sparkss.base.pool.ObjectPool">
+      <point x="38.0" y="-27.5" />
+      <point x="354.25" y="350.0" />
+      <point x="458.5" y="350.0" />
+      <point x="0.0" y="86.5" />
+    </edge>
+    <edge source="com.sparkss.base.interf.mgr.DSReaderMgr" target="com.sparkss.base.interf.reuse.Reusable">
+      <point x="0.0" y="-50.5" />
+      <point x="174.0" y="127.0" />
+      <point x="279.25" y="127.0" />
+      <point x="-37.0" y="51.0" />
+    </edge>
+    <edge source="com.sparkss.base.pool.ObjectPool" target="com.sparkss.base.interf.reuse.Reusable">
+      <point x="0.0" y="-86.5" />
+      <point x="458.5" y="127.0" />
+      <point x="353.25" y="127.0" />
+      <point x="37.0" y="51.0" />
+    </edge>
+    <edge source="com.sparkss.base.pool.hbase.HBaseReaderPool" target="com.sparkss.base.pool.ReaderObjPool">
+      <point x="0.0" y="-39.5" />
+      <point x="0.0" y="27.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="274.5" y="279.5" />
+  <SelectedNodes>
+    <node>com.sparkss.base.pool.hbase.HBaseReaderPool</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

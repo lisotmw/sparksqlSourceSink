@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * 封装属性，在 DataSource 各层级对象之间传递
+ * 每次查询的特殊数据（每次查询不同的数据源，字段及类型等）
+ * 关联属性：flowId      用来标记并区分每次查询的 long 类型数值, 用来解耦 可重用的缓存对象 和 查询的特殊数据
  * @Author $ zho.li
  * @Date 2020/12/23 11:43
  **/
@@ -47,9 +49,9 @@ public class FlowBean {
     /** schema 中允许的列名(hbase 列剪枝) */
     private List<String> requiredSchemaList;
 
-    /** reader 对象池 class 对象 */
+    /** reader 对象池 class 对象, 作为 key在缓存池中取到对应的一组缓存连接对象 */
     private Class<? extends WriterObjPool> writerPoolClz;
-    /** writer 对象池 class 对象 */
+    /** writer 对象池 class 对象， 同上 */
     private Class<? extends ReaderObjPool> readerPoolClz;
 
     public String getTableName() {

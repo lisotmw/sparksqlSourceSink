@@ -17,6 +17,7 @@ import org.apache.spark.sql.sources.v2.reader.DataSourceReader;
 import org.apache.spark.sql.sources.v2.writer.DataSourceWriter;
 import org.apache.spark.sql.types.StructType;
 
+import javax.xml.bind.annotation.XmlInlineBinaryData;
 import java.util.Optional;
 
 /**
@@ -30,32 +31,46 @@ import java.util.Optional;
  **/
 public class BaseDataSourceV implements DataSourceV2, ReadSupport, WriteSupport {
 
+    private ConsumerObj consumerObj;
+    private FlowBean flowBean;
+    DataSourceInstance dataSourceInst;
+
     public BaseDataSourceV(){
     }
 
-    @Override
-    public DataSourceReader createReader(DataSourceOptions options) {
-        ConsumerObj consumerObj = new ConsumerObj();
-        FlowBean flowBean = new FlowBean();
+    /**
+     * 初始化
+     * @param options
+     */
+    private void init(DataSourceOptions options){
+        consumerObj = new ConsumerObj();
+        flowBean = new FlowBean();
         flowBean.setOptions(options);
 
         String dataBaseMode = options.get(CommonOptionKey.DATA_BASE_MODE).get();
         flowBean.setDataBaseModeMark(dataBaseMode);
 
-        DataSourceInstance instance = DataSourceInstance.getInstance(dataBaseMode);
-        if (instance == null){
+        dataSourceInst = DataSourceInstance.getInstance(dataBaseMode);
+
+        if (dataSourceInst == null){
             throw new SparkParamException("未设置 DataBaseMode，或设置的 DataBaseMode 找不到实例");
         }
-        if (!instance.check(options)){
+        if (!dataSourceInst.check(options)){
             throw new SparkParamException("spark option 中缺少相关数据库读写的必要参数");
         }
-        // 设置读写对象池 class 对象
-        flowBean.setReaderPoolClz(instance.getReaderPoolClz());
 
-        // 随机生成一个 flowId
+    }
+
+    @Override
+    public DataSourceReader createReader(DataSourceOptions options) {
+        init(options);
+        // 设置读写对象池 class 对象
+        flowBean.setReaderPoolClz(dataSourceInst.getReaderPoolClz());
+
+        // 随机生成一个 flowId,用来解耦 可重用的缓存对象 和 查询的特殊数据
         long flowId = RandomUtil.generateRandomNumber(15);
         // 从对象池读取 ReaderMgr 并设置 flowId
-        DSReaderMgr dsReaderMgr = instance.getDSReaderMgr(flowId);
+        DSReaderMgr dsReaderMgr = dataSourceInst.getDSReaderMgr(flowId);
 
         consumerObj.setFlowBean(flowBean);
         consumerObj.setReaderMgr(dsReaderMgr);
@@ -69,35 +84,19 @@ public class BaseDataSourceV implements DataSourceV2, ReadSupport, WriteSupport 
                                                    StructType schema,
                                                    SaveMode mode,
                                                    DataSourceOptions options) {
+        init(options);
+        flowBean.setWriterPoolClz(dataSourceInst.getWriterPoolClz());
 
-        ConsumerObj consumerObj = new ConsumerObj();
-        FlowBean flowBean = new FlowBean();
-        flowBean.setOptions(options);
-
-        String dataBaseMode = options.get(CommonOptionKey.DATA_BASE_MODE).get();
-        flowBean.setDataBaseModeMark(dataBaseMode);
-
-        DataSourceInstance instance = DataSourceInstance.getInstance(dataBaseMode);
-        if (instance == null){
-            throw new SparkParamException("未设置 DataBaseMode，或设置的 DataBaseMode 找不到实例");
-        }
-        if (!instance.check(options)){
-            throw new SparkParamException("spark option 中缺少相关数据库读写的必要参数");
-        }
-
-        flowBean.setWriterPoolClz(instance.getWriterPoolClz());
-
-        // 随机生成一个 flowId
+        // 随机生成一个 flowId,用来解耦 可重用的缓存对象 和 查询的特殊数据
         long flowId = RandomUtil.generateRandomNumber(15);
         // 从对象池读取 WriterMgr 并设置 flowId
-        DSWriterMgr dsWriterMgr = instance.getDSWriterMgr(flowId);
+        DSWriterMgr dsWriterMgr = dataSourceInst.getDSWriterMgr(flowId);
 
         consumerObj.setFlowBean(flowBean);
         consumerObj.setWriterMgr(dsWriterMgr);
         // 每次写入数据库作为一次记录放入 临时缓存
         ConsumerMgr.CONSUMING.submit(flowId, consumerObj);
         return Optional.of(dsWriterMgr.getDataSourceWriter(flowId));
-
     }
 
 }

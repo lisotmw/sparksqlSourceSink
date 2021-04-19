@@ -13,6 +13,7 @@ import java.util.Vector;
 import java.util.concurrent.Semaphore;
 
 /**
+ * <p>对象池公用基类</p>
  * 泛型实例不能直接初始化
  * 怎么实现动态扩容啊。。。。
  * @param <T>
@@ -21,6 +22,7 @@ public abstract  class ObjectPool<T extends Reusable> {
     final List<T> pool;
     final Semaphore semaphore;
     ObjectPool(T t){
+        // 保证并发的线程安全，只能使用 vector
         pool = new Vector<T>(getSize());
         for(int i = 0; i <getSize();i++){
             pool.add(t);

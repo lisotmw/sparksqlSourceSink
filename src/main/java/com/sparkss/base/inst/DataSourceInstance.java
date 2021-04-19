@@ -5,7 +5,6 @@ import com.sparkss.base.interf.DSReader;
 import com.sparkss.base.interf.mgr.DSReaderMgr;
 import com.sparkss.base.interf.DSWriter;
 import com.sparkss.base.interf.mgr.DSWriterMgr;
-import com.sparkss.base.keys.CommonOptionKey;
 import com.sparkss.base.keys.SparkOptionEnum;
 import com.sparkss.base.log.Logger0;
 import com.sparkss.base.pool.PoolMgr;
@@ -18,7 +17,6 @@ import org.apache.spark.sql.sources.v2.DataSourceOptions;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

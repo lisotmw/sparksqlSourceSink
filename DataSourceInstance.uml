@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.sparkss.base.inst.DataSourceInstance</OriginalElement>
+  <nodes>
+    <node x="695.0" y="105.0">java.lang.Enum</node>
+    <node x="669.0" y="0.0">java.lang.Comparable</node>
+    <node x="420.0" y="267.5">com.sparkss.base.interf.DSWriter</node>
+    <node x="970.0" y="256.0">com.sparkss.base.interf.Checkable</node>
+    <node x="0.0" y="267.5">com.sparkss.base.interf.DSReader</node>
+    <node x="287.0" y="267.5">com.sparkss.base.log.Logger0</node>
+    <node x="219.0" y="535.0">com.sparkss.base.inst.DataSourceInstance</node>
+    <node x="833.0" y="12.5">java.io.Serializable</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.sparkss.base.inst.DataSourceInstance" target="java.lang.Enum">
+      <point x="131.4000000000001" y="-167.0" />
+      <point x="678.9000000000001" y="505.0" />
+      <point x="822.5" y="505.0" />
+      <point x="0.0" y="190.0" />
+    </edge>
+    <edge source="com.sparkss.base.inst.DataSourceInstance" target="com.sparkss.base.interf.Checkable">
+      <point x="262.79999999999995" y="-167.0" />
+      <point x="810.3" y="515.0" />
+      <point x="1217.5" y="515.0" />
+      <point x="0.0" y="39.0" />
+    </edge>
+    <edge source="java.lang.Enum" target="java.io.Serializable">
+      <point x="63.75" y="-190.0" />
+      <point x="886.25" y="80.0" />
+      <point x="904.0" y="80.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="com.sparkss.base.inst.DataSourceInstance" target="com.sparkss.base.interf.DSWriter">
+      <point x="0.0" y="-167.0" />
+      <point x="0.0" y="27.5" />
+    </edge>
+    <edge source="java.lang.Enum" target="java.lang.Comparable">
+      <point x="-63.75" y="-190.0" />
+      <point x="758.75" y="80.0" />
+      <point x="741.0" y="80.0" />
+      <point x="0.0" y="27.5" />
+    </edge>
+    <edge source="com.sparkss.base.inst.DataSourceInstance" target="com.sparkss.base.log.Logger0">
+      <point x="-131.39999999999986" y="-167.0" />
+      <point x="416.10000000000014" y="515.0" />
+      <point x="343.5" y="515.0" />
+      <point x="0.0" y="27.5" />
+    </edge>
+    <edge source="com.sparkss.base.inst.DataSourceInstance" target="com.sparkss.base.interf.DSReader">
+      <point x="-262.79999999999995" y="-167.0" />
+      <point x="284.70000000000005" y="515.0" />
+      <point x="133.5" y="515.0" />
+      <point x="0.0" y="27.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6782902137232846" x="732.5" y="434.5" />
+  <SelectedNodes>
+    <node>com.sparkss.base.inst.DataSourceInstance</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

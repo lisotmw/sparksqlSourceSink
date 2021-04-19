@@ -25,6 +25,8 @@ object HbaseSourceAndSink {
     val spark: SparkSession = SparkSession.builder()
       .master("local[2]")
       .getOrCreate()
+
+
     val df: DataFrame = spark.read
       .format(CommonOptionKey.SOURCE_CLASS)
 //      .format("com.liz.demo.HBaseSource")

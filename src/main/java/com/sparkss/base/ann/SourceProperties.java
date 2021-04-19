@@ -11,6 +11,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
+@Deprecated
 public @interface SourceProperties{
     /** 表名 */
     String tableName();

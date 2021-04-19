@@ -29,7 +29,7 @@ import java.util.stream.Stream;
  * @Author $ zho.li
  * @Date 2020/12/23 17:45
  **/
-public class HBaseDataWriter implements ReuseDataWriter<Row>, Logger0 {
+public class HBaseDataWriter extends ReuseDataWriter<Row> implements Logger0 {
 
     private Connection conn;
 
@@ -125,13 +125,13 @@ public class HBaseDataWriter implements ReuseDataWriter<Row>, Logger0 {
     }
 
     @Override
-    public WriterCommitMessage commit() throws IOException {
+    public WriterCommitMessage commit0() throws IOException {
         conn.close();
         return null;
     }
 
     @Override
-    public void abort() throws IOException {
+    public void abort0() throws IOException {
 
     }
 

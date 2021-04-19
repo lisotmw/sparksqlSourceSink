@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.sparkss.base.impl.hbase.HBaseDataReader</OriginalElement>
+  <nodes>
+    <node x="138.0" y="362.0">com.sparkss.base.interf.reuse.ReuseDataReader</node>
+    <node x="78.0" y="222.0">org.apache.spark.sql.sources.v2.reader.DataReader</node>
+    <node x="226.0" y="210.0">com.sparkss.base.interf.reuse.Reusable</node>
+    <node x="16.0" y="105.0">java.io.Closeable</node>
+    <node x="9.75" y="490.0">com.sparkss.base.impl.hbase.HBaseDataReader</node>
+    <node x="154.0" y="117.5">org.apache.spark.annotation.InterfaceStability.Evolving</node>
+    <node x="0.0" y="0.0">java.lang.AutoCloseable</node>
+    <node x="5.0" y="373.5">com.sparkss.base.log.Logger0</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.apache.spark.sql.sources.v2.reader.DataReader" target="java.io.Closeable">
+      <point x="-32.0" y="-39.0" />
+      <point x="110.0" y="185.0" />
+      <point x="75.0" y="185.0" />
+      <point x="0.0" y="27.5" />
+    </edge>
+    <edge source="com.sparkss.base.impl.hbase.HBaseDataReader" target="com.sparkss.base.interf.reuse.ReuseDataReader">
+      <point x="65.75" y="-167.0" />
+      <point x="207.0" y="465.0" />
+      <point x="221.0" y="465.0" />
+      <point x="0.0" y="39.0" />
+    </edge>
+    <edge source="java.io.Closeable" target="java.lang.AutoCloseable">
+      <point x="0.0" y="-27.5" />
+      <point x="0.0" y="27.5" />
+    </edge>
+    <edge source="com.sparkss.base.interf.reuse.ReuseDataReader" target="org.apache.spark.sql.sources.v2.reader.DataReader">
+      <point x="-41.5" y="-39.0" />
+      <point x="179.5" y="337.0" />
+      <point x="142.0" y="337.0" />
+      <point x="0.0" y="39.0" />
+    </edge>
+    <edge source="com.sparkss.base.impl.hbase.HBaseDataReader" target="com.sparkss.base.log.Logger0">
+      <point x="-65.75" y="-167.0" />
+      <point x="75.5" y="465.0" />
+      <point x="61.5" y="465.0" />
+      <point x="0.0" y="27.5" />
+    </edge>
+    <edge source="com.sparkss.base.interf.reuse.ReuseDataReader" target="com.sparkss.base.interf.reuse.Reusable">
+      <point x="41.5" y="-39.0" />
+      <point x="262.5" y="337.0" />
+      <point x="300.0" y="337.0" />
+      <point x="0.0" y="51.0" />
+    </edge>
+    <edge source="org.apache.spark.sql.sources.v2.reader.DataReader" target="org.apache.spark.annotation.InterfaceStability.Evolving">
+      <point x="32.0" y="-39.0" />
+      <point x="174.0" y="185.0" />
+      <point x="209.0" y="185.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7144549763033176" x="187.0" y="412.0" />
+  <SelectedNodes>
+    <node>com.sparkss.base.impl.hbase.HBaseDataReader</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

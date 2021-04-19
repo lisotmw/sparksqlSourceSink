@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.sparkss.base.impl.hbase.HBaseDSReader</OriginalElement>
+  <nodes>
+    <node x="0.0" y="152.0">com.sparkss.base.interf.mgr.DSReaderMgr</node>
+    <node x="100.0" y="0.0">com.sparkss.base.interf.reuse.Reusable</node>
+    <node x="12.5" y="303.0">com.sparkss.base.impl.hbase.HBaseDSReader</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.sparkss.base.impl.hbase.HBaseDSReader" target="com.sparkss.base.interf.mgr.DSReaderMgr">
+      <point x="0.0" y="-98.0" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="com.sparkss.base.interf.mgr.DSReaderMgr" target="com.sparkss.base.interf.reuse.Reusable">
+      <point x="0.0" y="-50.5" />
+      <point x="0.0" y="51.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="174.0" y="249.5" />
+  <SelectedNodes>
+    <node>com.sparkss.base.impl.hbase.HBaseDSReader</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
